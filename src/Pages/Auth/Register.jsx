@@ -41,7 +41,7 @@ export default function Register() {
 
     try {
       // Send register request
-      const res = await axios.post("https://laravel-backend-production-703c.up.railway.app/api/register", formData);
+      const res = await axios.post("https://laravel-backend-production-e0d9.up.railway.app/api/register", formData);
 
       // Extract user data (NO need for .json())
       const data = res.data;

@@ -6,7 +6,7 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
 
   async function getPosts() {
-    const res = await axios.get("https://laravel-backend-production-703c.up.railway.app/api/posts");
+    const res = await axios.get("https://laravel-backend-production-e0d9.up.railway.app/api/posts");
     const data = res.data;
     if (res.data) {
       setPosts(data);

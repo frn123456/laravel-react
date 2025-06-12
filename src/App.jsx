@@ -15,7 +15,7 @@ const AuthGuard = ({ children }) => {
   useEffect(() => {
     async function checkAuth() {
       try {
-        await axios.get("https://laravel-backend-production-703c.up.railway.app/api/user"); // ✅ Check if user is logged in
+        await axios.get("https://laravel-backend-production-e0d9.up.railway.app/api/user"); // ✅ Check if user is logged in
         setIsAuthenticated(true);
       } catch (error) {
         setIsAuthenticated(false); // ❌ User is logged out
@@ -39,7 +39,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     async function checkAuth() {
       try {
-        await axios.get("https://laravel-backend-production-703c.up.railway.app/api/user"); // ✅ Check if user is logged in
+        await axios.get("https://laravel-backend-production-e0d9.up.railway.app/api/user"); // ✅ Check if user is logged in
         setIsAuthenticated(true);
       } catch (error) {
         setIsAuthenticated(false); // ❌ User is logged out
