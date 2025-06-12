@@ -25,7 +25,7 @@ export default function Login() {
       await axios.get("/sanctum/csrf-cookie");
 
       // Send login request
-      const res = await axios.post("/api/login", formData);
+      const res = await axios.post("https://laravel-backend-production-703c.up.railway.app/api/login", formData);
       const data = res.data;
       if (data) {
         setUser(data.user); // ✅ Update user state immediately

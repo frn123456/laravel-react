@@ -32,7 +32,7 @@ export default function Layout() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/logout"); // Sanctum handles session-based logout
+      const res = await axios.post("https://laravel-backend-production-703c.up.railway.app/api/logout"); // Sanctum handles session-based logout
       const data = res.data;
       setUser(null); // Clear user state
       navigate("/"); // Redirect to home

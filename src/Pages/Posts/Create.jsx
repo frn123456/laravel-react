@@ -19,7 +19,7 @@ export default function Create() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/posts", formData);
+      const res = await axios.post("https://laravel-backend-production-703c.up.railway.app/api/posts", formData);
       const data = res.data;
       if (data) {
         navigate("/");
