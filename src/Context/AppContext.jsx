@@ -12,7 +12,7 @@ export default function AppProvider({ children }) {
   async function getUser() {
     try {
       
-      const res = await axios.get("https://laravel-backend-production-e0d9.up.railway.app");
+      const res = await axios.get("https://laravel-backend-production-d2e9.up.railway.app/api/user");
       setUser(res.data);
     } catch (error) {
       if (error.response?.status === 401) {

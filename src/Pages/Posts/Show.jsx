@@ -20,7 +20,7 @@ export default function Show() {
   const [showUpdateForm, setShowUpdateForm] = useState(false); // Controls form visibility
 
   async function getPost() {
-    const res = await axios.get(`/api/posts/${id}`);
+    const res = await axios.get(`https://laravel-backend-production-d2e9.up.railway.app/api/posts/${id}`);
     const data = res.data;
 
     setPost(data.post);
