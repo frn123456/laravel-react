@@ -22,7 +22,13 @@ export default function Login() {
 
     try {
       // Ensure CSRF token is set
-      await axios.get("/sanctum/csrf-cookie");
+         // 1️⃣ Get CSRF cookie first (required by Sanctum)
+      await axios.get(
+        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
+        {
+          withCredentials: true,
+        }
+      );
 
       // Send login request
       const res = await axios.post("https://laravel-backend-production-d2e9.up.railway.app/api/login", formData);
@@ -33,10 +39,9 @@ export default function Login() {
         console.log(data);
       }
     } catch (error) {
-      if (error.response && error.response.data) {
+      if (error.response?.data?.errors) {
         setErrors(
-          error.response.data.errors || { email: ["Invalid credentials"] }
-        );
+          error.response.data.errors);
       } else {
         console.error("Login error:", error);
       }

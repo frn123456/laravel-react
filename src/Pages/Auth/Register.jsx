@@ -62,7 +62,7 @@ export default function Register() {
         console.log(data);
       }
     } catch (error) {
-      if (error.response && error.response.data.errors) {
+      if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       } else {
         console.error("Registration error:", error);

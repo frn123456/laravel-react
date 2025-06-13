@@ -19,6 +19,13 @@ export default function Create() {
     e.preventDefault();
 
     try {
+        // 1️⃣ Get CSRF cookie first (required by Sanctum)
+      await axios.get(
+        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
+        {
+          withCredentials: true,
+        }
+      );
       const res = await axios.post("https://laravel-backend-production-d2e9.up.railway.app/api/posts", formData);
       const data = res.data;
       if (data) {
@@ -26,7 +33,7 @@ export default function Create() {
         console.log(data);
       }
     } catch (error) {
-      if (error.response?.data.errors) {
+      if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       } else {
         console.error("Create post error:", error);

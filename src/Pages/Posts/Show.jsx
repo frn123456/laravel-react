@@ -41,29 +41,61 @@ export default function Show() {
   //   }
   // }
 
-  async function handleDelete(e) {
+   async function handleDelete(e) {
     e.preventDefault();
-    const res = await axios.delete(`/api/posts/${id}`);
-    const data = res.data;
-    if (data) {
-      setPost(null);
-      navigate("/");
+
+    try {
+        // 1️⃣ Get CSRF cookie first (required by Sanctum)
+      await axios.get(
+        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
+        {
+          withCredentials: true,
+        }
+      );
+      
+      const res = await axios.delete(`/api/posts/${id}`);
+      const data = res.data;
+      if (data) {
+        navigate("/");
+        console.log(data);
+      }
+    } catch (error) {
+      if (error.response?.data.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        console.error("Delete post error:", error);
+      }
     }
   }
 
   async function handleUpdate(e) {
     e.preventDefault();
-    const res = await axios.put(`/api/posts/${id}`, formData);
-    const data = res.data;
-    if (data.errors) {
-      setErrors(data.errors);
-    } else {
-      setPost(data.post);
-      setShowUpdateForm(false); // Hide form after successful update
-      navigate("/");
+
+    try {
+        // 1️⃣ Get CSRF cookie first (required by Sanctum)
+      await axios.get(
+        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
+        {
+          withCredentials: true,
+        }
+      );
+      
+      const res = await axios.put(`/api/posts/${id}`, formData);
+      const data = res.data;
+      if (data) {
+        navigate("/");
+        console.log(data);
+      }
+    } catch (error) {
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        console.error("Update post error:", error);
+      }
     }
   }
 
+  
   useEffect(() => {
     getPost();
   }, []);
