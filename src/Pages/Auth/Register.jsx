@@ -35,13 +35,24 @@ export default function Register() {
 
   //   }
   // }
+  axios.defaults.withCredentials = true;
 
   async function handleRegister(e) {
     e.preventDefault();
 
     try {
+      // 1️⃣ Get CSRF cookie first (required by Sanctum)
+      await axios.get(
+        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
+        {
+          withCredentials: true,
+        }
+      );
       // Send register request
-      const res = await axios.post("https://laravel-backend-production-d2e9.up.railway.app/api/register", formData);
+      const res = await axios.post(
+        "https://laravel-backend-production-d2e9.up.railway.app/api/register",
+        formData
+      );
 
       // Extract user data (NO need for .json())
       const data = res.data;
