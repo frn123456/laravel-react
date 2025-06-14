@@ -8,14 +8,13 @@ import FieldError from "../../Components/FieldError";
 
 export default function Login() {
   const { setToken } = useContext(AppContext);
+  const { errors, capture, clear } = useLaravelErrors();
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const [errors, capture, clear] = useLaravelErrors();
 
   /*  Use only for cookies
  axios.defaults.withCredentials = true;
