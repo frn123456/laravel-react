@@ -43,7 +43,6 @@ export default function AppProvider({ children }) {
 
     const data = res.data;
     if (data) {
-      console.log(data);
       setUser(data);
     }
     } catch (error) {
