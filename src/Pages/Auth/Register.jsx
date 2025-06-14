@@ -101,8 +101,8 @@ export default function Register() {
             placeholder="Password"
             value={formData.password}
              onChange={(e) => {
-              setFormData({ ...formData, name: e.target.value });
-              clear("name");
+              setFormData({ ...formData, password: e.target.value });
+              clear("password");
             }}
           />
           <FieldError errors={errors} field="password" />
