@@ -31,13 +31,6 @@ export default function Layout() {
   async function handleLogout(e) {
     e.preventDefault();
     try {
-      // 1️⃣ Get CSRF cookie first (required by Sanctum)
-      await axios.get(
-        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
-        {
-          withCredentials: true,
-        }
-      );
       const res = await axios.post(
         "https://laravel-backend-production-d2e9.up.railway.app/api/logout"
       ); // Sanctum handles session-based logout
