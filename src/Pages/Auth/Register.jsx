@@ -5,10 +5,9 @@ import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 import { useContext } from "react";
 
-
 export default function Register() {
-  const {setToken, setUser} = useContext(AppContext);
-  const { errors, setErrors } = useState({});
+  const { setToken, setUser } = useContext(AppContext);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -20,7 +19,10 @@ export default function Register() {
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      const res = await axios.post("https://laravel-backend-production-d2e9.up.railway.app/api/register", formData);
+      const res = await axios.post(
+        "https://laravel-backend-production-d2e9.up.railway.app/api/register",
+        formData
+      );
       const data = res.data;
       if (data) {
         setUser(data.user);
@@ -37,8 +39,7 @@ export default function Register() {
     }
   }
 
-  
- /* Use only for cookies
+  /* Use only for cookies
  
  axios.defaults.withCredentials = true;
 
@@ -80,9 +81,7 @@ export default function Register() {
             type="text"
             placeholder="Name"
             value={formData.name}
-            onChange={(e) => 
-              setFormData({ ...formData, name: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
           {errors.name && <p className="error">{errors.name?.[0]}</p>}
         </div>
@@ -91,9 +90,8 @@ export default function Register() {
             type="email"
             placeholder="Email"
             value={formData.email}
-             onChange={(e) => 
+            onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
-            
             }
           />
           {errors.email && <p className="error">{errors.email?.[0]}</p>}
@@ -103,9 +101,8 @@ export default function Register() {
             type="password"
             placeholder="Password"
             value={formData.password}
-             onChange={(e) => 
+            onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
-              
             }
           />
           {errors.password && <p className="error">{errors.password?.[0]}</p>}
@@ -115,8 +112,11 @@ export default function Register() {
             type="password"
             placeholder="Confirm Password"
             value={formData.password_confirmation}
-           onChange={(e) => 
-              setFormData({ ...formData, password_confirmation: e.target.value })
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                password_confirmation: e.target.value,
+              })
             }
           />
         </div>

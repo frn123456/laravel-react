@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function Login() {
   const { setToken, setUser } = useContext(AppContext);
-  const { errors, setErrors} = useState({});
+  const [errors, setErrors]  = useState({});
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
