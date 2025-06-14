@@ -4,11 +4,13 @@ import { createContext, useEffect, useState } from "react";
 export const AppContext = createContext();
 
 export default function AppProvider({ children }) {
-  // const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
 
   
 
+  /*User for cookies only
+  
   async function getUser() {
     try {
       
@@ -25,48 +27,44 @@ export default function AppProvider({ children }) {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, []); */
 
-  // async function getUser() {
-  //   const res = await fetch("/api/user", {
-  //     credentials: "include",
-  //   });
-  //   const data = await res.json();
 
-  //   if (res.ok) {
-  //     setUser(data);
-  //   }
-  // }
+  async function getUser() {
 
-  // // Automatically fetch user data when the component mounts
-  // useEffect(() => {
-  //   getUser();
-  // }, []); // Remove `token` dependency since we're using cookies
+    try {
+      const res = await axios("https://laravel-backend-production-d2e9.up.railway.app/api/user"
+      ,{
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  // async function getUser() {
-  //   const res = await fetch("/api/user", {
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  //   const data = await res.json();
+    const data = res.data;
+    if (data) {
+      console.log(data);
+      setUser(data);
+    }
+    } catch (error) {
+      if (error.response?.status === 401) {
+        setUser(null);
+      } else{
+        console.error("Error fetching user:", error);
+      }
+    }
+  }
 
-  //   if (res.ok) {
-  //     console.log(data);
-  //     setUser(data);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (token) {
-  //     getUser();
-  //   } else {
-  //     setUser(null); // Ensure user state is cleared when logging out
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (token) {
+      getUser();
+    } else {
+      setUser(null); // Ensure user state is cleared when logging out
+    }
+  }, [token]);
 
   return (
-    <AppContext.Provider value={{ user, setUser, getUser }}>
+    <AppContext.Provider value={{ user, token, setToken, setUser, getUser }}>
       {children}
     </AppContext.Provider>
   );

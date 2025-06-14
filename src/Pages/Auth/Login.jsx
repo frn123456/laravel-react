@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
+import useLaraveErrors from "../../Reusables/useLaravelErrors";
+import FieldError from "../../Components/FieldError";
 
 export default function Login() {
-  // const { setToken } = useContext(AppContext);
+  const { setToken } = useContext(AppContext);
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -13,9 +15,10 @@ export default function Login() {
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, capture, clear] = useLaraveErrors();
 
-  axios.defaults.withCredentials = true;
+  /*  Use only for cookies
+ axios.defaults.withCredentials = true;
 
   async function handleLogin(e) {
     e.preventDefault(); // Prevent page reload
@@ -45,24 +48,27 @@ export default function Login() {
         console.error("Login error:", error);
       }
     }
-  }
+  } */
 
-  // async function handleLogin(e) {
-  //   e.preventDefault();
-  //   const res = await fetch("/api/login", {
-  //     method: "POST",
-  //     body: JSON.stringify(formData),
-  //   });
-  //   const data = await res.json();
-  //   if (data.errors) {
-  //     setErrors(data.errors);
-  //   } else {
-  //     localStorage.setItem("token", data.token);
-  //     setToken(data.token);
-  //     navigate("/");
-  //     console.log(data);
-  //   }
-  // }
+  async function handleLogin(e) {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "https://laravel-backend-production-d2e9.up.railway.app/api/login",
+        formData
+      );
+      const data = res.data;
+      if (data) {
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        navigate("/");
+        alert("Login successful!");
+      }
+    } catch (error) {
+      capture(error);
+    }
+  }
 
   return (
     <>
@@ -73,26 +79,24 @@ export default function Login() {
             type="email"
             placeholder="Email"
             value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+            onChange={(e) => {
+              setFormData({ ...formData, email: e.target.value });
+              clear("email");
+            }}
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email[0]}</p>
-          )}
+          <FieldError errors={errors} field="email" />
         </div>
         <div>
           <input
             type="password"
             placeholder="Password"
             value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+            onChange={(e) => {
+              setFormData({ ...formData, password: e.target.value });
+              clear("password");
+            }}
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password[0]}</p>
-          )}
+          <FieldError errors={errors} field="password" />
         </div>
 
         <button className="primary-btn">Login</button>

@@ -8,7 +8,7 @@ import FieldError from "../../Components/FieldError";
 import useLaravelErrors from "../../Reusables/useLaravelErrors";
 
 export default function Register() {
-  // const {setToken} = useContext(AppContext);
+  const {setToken} = useContext(AppContext);
   const { errors, capture, clear } = useLaravelErrors();
   const navigate = useNavigate();
   const { setUser } = useContext(AppContext);
@@ -19,24 +19,27 @@ export default function Register() {
     password_confirmation: "",
   });
 
-  // async function handleRegister(e) {
-  //   e.preventDefault();
-  //   const res = await fetch("/api/register", {
-  //     method: "POST",
-  //     body: JSON.stringify(formData),
-  //   });
-  //   const data = await res.json();
-  //   if (data.errors) {
-  //     setErrors(data.errors);
-  //   }else{
-  //     localStorage.setItem("token", data.token);
-  //     setToken(data.token);
-  //     navigate("/");
-  //     console.log(data);
+  async function handleRegister(e) {
+    e.preventDefault();
+    try {
+      const res = await axios.post("https://laravel-backend-production-d2e9.up.railway.app/api/register", formData);
+      const data = res.data;
+      if (data) {
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        navigate("/");
+        alert("Registration successful!");
+      }
+    } catch (error) {
+      capture(error);
+    }
+  }
 
-  //   }
-  // }
-  axios.defaults.withCredentials = true;
+  
+ /* Use only for cookies
+ 
+ axios.defaults.withCredentials = true;
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -65,7 +68,7 @@ export default function Register() {
     } catch (error) {
       capture(error);
     }
-  }
+  } */
 
   return (
     <>
