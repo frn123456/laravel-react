@@ -45,7 +45,7 @@ export default function Layout() {
       setUser(null);
       setToken(null);
       navigate("/");
-      alert("Logout successful!");
+      alert(data);
     }
   } catch (error) {
     console.error("Logout failed:", error);

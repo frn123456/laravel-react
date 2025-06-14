@@ -29,7 +29,7 @@ export default function Register() {
         localStorage.setItem("token", data.token);
         setToken(data.token);
         navigate("/");
-        alert("Registration successful!");
+        alert(data);
       }
     } catch (error) {
       if (error.response?.data?.errors) {
