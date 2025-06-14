@@ -28,30 +28,30 @@ export default function Layout() {
   // }
 
   async function handleLogout(e) {
-  e.preventDefault();
-  try {
-    const res = await axios.post(
-      "https://laravel-backend-production-d2e9.up.railway.app/api/logout",
-      {}, // Empty body
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "https://laravel-backend-production-d2e9.up.railway.app/api/logout",
+        {}, // Empty body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    const data = res.data;
-    if (data?.message) {
-      alert(data.message);
-    }
-    setUser(null);
+      const data = res.data;
+      if (data?.message) {
+        alert(data.message);
+      }
+      setUser(null);
       setToken(null);
       navigate("/");
-  } catch (error) {
-    console.error("Logout failed:", error);
+      console.log(data);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   }
-}
-
 
   return (
     <>

@@ -31,7 +31,7 @@ export default function Register() {
       localStorage.setItem("token", data.token);
       setToken(data.token);
       navigate("/");
-      alert(data);
+      console.log(data);
     } catch (error) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
