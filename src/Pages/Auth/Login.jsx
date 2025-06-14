@@ -19,7 +19,6 @@ export default function Login() {
 
   async function handleLogin(e) {
     e.preventDefault(); // Prevent page reload
-
     try {
       // Ensure CSRF token is set
          // 1️⃣ Get CSRF cookie first (required by Sanctum)
