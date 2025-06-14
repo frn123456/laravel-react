@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function Login() {
   const { setToken, setUser } = useContext(AppContext);
-  const [errors, setErrors]  = useState({});
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -54,18 +54,19 @@ export default function Login() {
         formData
       );
       const data = res.data;
-      if (data) {
-        setUser(data.user);
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
-        navigate("/");
-        alert(data);
+      if (data?.message) {
+        alert(data.message);
       }
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      setToken(data.token);
+      navigate("/");
+      alert(data);
     } catch (error) {
       if (error.response?.data.errors) {
         setErrors(error.response.data.errors);
         console.error("Login error:", error);
-      } 
+      }
     }
   }
 
@@ -78,20 +79,20 @@ export default function Login() {
             type="email"
             placeholder="Email"
             value={formData.email}
-            onChange={(e) => 
+            onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
-           }
+            }
           />
-           {errors.email && <p className="error">{errors.email?.[0]}</p>}
+          {errors.email && <p className="error">{errors.email?.[0]}</p>}
         </div>
         <div>
           <input
             type="password"
             placeholder="Password"
             value={formData.password}
-            onChange={(e) => 
+            onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
-           }
+            }
           />
           {errors.password && <p className="error">{errors.password?.[0]}</p>}
         </div>

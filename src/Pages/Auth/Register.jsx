@@ -24,13 +24,14 @@ export default function Register() {
         formData
       );
       const data = res.data;
-      if (data) {
-        setUser(data.user);
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
-        navigate("/");
-        alert(data);
+      if (data?.message) {
+        alert(data.message);
       }
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      setToken(data.token);
+      navigate("/");
+      alert(data);
     } catch (error) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
@@ -38,7 +39,6 @@ export default function Register() {
       }
     }
   }
-
 
   return (
     <>

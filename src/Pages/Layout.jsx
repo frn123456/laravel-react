@@ -41,12 +41,12 @@ export default function Layout() {
     );
 
     const data = res.data;
-    if (data) {
-      setUser(null);
+    if (data?.message) {
+      alert(data.message);
+    }
+    setUser(null);
       setToken(null);
       navigate("/");
-      alert(data);
-    }
   } catch (error) {
     console.error("Logout failed:", error);
   }
