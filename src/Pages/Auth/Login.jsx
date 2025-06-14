@@ -4,11 +4,10 @@ import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 import useLaravelErrors from "../../Reusables/useLaravelErrors";
-import FieldError from "../../Components/FieldError";
 
 export default function Login() {
   const { setToken } = useContext(AppContext);
-  const { errors, capture, clear } = useLaravelErrors();
+  const { errors, capture} = useLaravelErrors();
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -78,24 +77,22 @@ export default function Login() {
             type="email"
             placeholder="Email"
             value={formData.email}
-            onChange={(e) => {
-              setFormData({ ...formData, email: e.target.value });
-              clear("email");
-            }}
+            onChange={(e) => 
+              setFormData({ ...formData, email: e.target.value })
+           }
           />
-          <FieldError errors={errors} field="email" />
+           {errors.email && <p className="error">{errors.email?.[0]}</p>}
         </div>
         <div>
           <input
             type="password"
             placeholder="Password"
             value={formData.password}
-            onChange={(e) => {
-              setFormData({ ...formData, password: e.target.value });
-              clear("password");
-            }}
+            onChange={(e) => 
+              setFormData({ ...formData, password: e.target.value })
+           }
           />
-          <FieldError errors={errors} field="password" />
+          {errors.password && <p className="error">{errors.password?.[0]}</p>}
         </div>
 
         <button className="primary-btn">Login</button>
