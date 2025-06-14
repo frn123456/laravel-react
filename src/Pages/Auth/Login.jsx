@@ -62,7 +62,7 @@ export default function Login() {
         alert("Login successful!");
       }
     } catch (error) {
-      if (error.response?.data?.errors) {
+      if (error.response?.data.errors) {
         setErrors(error.response.data.errors);
         console.error("Login error:", error);
       } 

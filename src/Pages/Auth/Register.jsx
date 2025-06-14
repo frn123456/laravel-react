@@ -30,7 +30,7 @@ export default function Register() {
         alert("Registration successful!");
       }
     } catch (error) {
-      if (error.response?.data?.errors) {
+      if (error.response?.data.errors) {
         setErrors(error.response.data.errors);
         console.error("Registration error:", error);
       }
