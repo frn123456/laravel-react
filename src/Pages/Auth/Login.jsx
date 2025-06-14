@@ -63,10 +63,13 @@ export default function Login() {
       navigate("/");
       console.log(data);
     } catch (error) {
-      if (error.response?.data.errors) {
+      if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
-        console.error("Login error:", error);
+      }else if (error.response?.data?.message) {
+        setErrors({ email: [error.response.data.message] });
       }
+      console.error("Login error:", error);
+      
     }
   }
 
