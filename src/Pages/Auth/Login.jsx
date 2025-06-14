@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
-import useLaravelErrors from "../../Reusables/useLaravelErrors";
 
 export default function Login() {
   const { setToken } = useContext(AppContext);
-  const { errors, capture} = useLaravelErrors();
+  const { errors, setErrors} = useState({});
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -64,7 +63,10 @@ export default function Login() {
         alert("Login successful!");
       }
     } catch (error) {
-      capture(error);
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+        console.error("Login error:", error);
+      } 
     }
   }
 

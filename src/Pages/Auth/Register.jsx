@@ -4,11 +4,11 @@ import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 import { useContext } from "react";
-import useLaravelErrors from "../../Reusables/useLaravelErrors";
+
 
 export default function Register() {
   const {setToken} = useContext(AppContext);
-  const { errors, capture } = useLaravelErrors();
+  const { errors, setErrors } = useState({});
   const navigate = useNavigate();
   const { setUser } = useContext(AppContext);
   const [formData, setFormData] = useState({
@@ -31,7 +31,10 @@ export default function Register() {
         alert("Registration successful!");
       }
     } catch (error) {
-      capture(error);
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+        console.error("Registration error:", error);
+      }
     }
   }
 
