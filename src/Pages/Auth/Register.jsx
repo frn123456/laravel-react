@@ -29,10 +29,10 @@ export default function Register() {
         localStorage.setItem("token", data.token);
         setToken(data.token);
         navigate("/");
-        alert("Registration successful!");
+        alert(data.message);
       }
     } catch (error) {
-      if (error.response?.data.errors) {
+      if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
         console.error("Registration error:", error);
       }
