@@ -4,9 +4,12 @@ import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 import { useContext } from "react";
+import FieldError from "../../Components/FieldError";
+import useLaravelErrors from "../../Reusables/useLaravelErrors";
 
 export default function Register() {
   // const {setToken} = useContext(AppContext);
+  const { errors, capture, clear } = useLaravelErrors();
   const navigate = useNavigate();
   const { setUser } = useContext(AppContext);
   const [formData, setFormData] = useState({
@@ -15,8 +18,6 @@ export default function Register() {
     password: "",
     password_confirmation: "",
   });
-
-  const [errors, setErrors] = useState({});
 
   // async function handleRegister(e) {
   //   e.preventDefault();
@@ -59,14 +60,10 @@ export default function Register() {
       if (data) {
         setUser(data.user);
         navigate("/");
-        console.log(data);
+        alert("Registration successful!");
       }
     } catch (error) {
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-      } else {
-        console.error("Registration error:", error);
-      }
+      capture(error);
     }
   }
 
@@ -79,49 +76,46 @@ export default function Register() {
             type="text"
             placeholder="Name"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={(e) => {
+              setFormData({ ...formData, name: e.target.value });
+              clear("name");
+            }}
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm">{errors.name?.[0]}</p>
-          )}
+          <FieldError errors={errors} field="name" />
         </div>
         <div>
           <input
             type="email"
             placeholder="Email"
             value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+             onChange={(e) => {
+              setFormData({ ...formData, email: e.target.value });
+              clear("email");
+            }}
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email?.[0]}</p>
-          )}
+          <FieldError errors={errors} field="email" />
         </div>
         <div>
           <input
             type="password"
             placeholder="Password"
             value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+             onChange={(e) => {
+              setFormData({ ...formData, name: e.target.value });
+              clear("name");
+            }}
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password?.[0]}</p>
-          )}
+          <FieldError errors={errors} field="password" />
         </div>
         <div>
           <input
             type="password"
             placeholder="Confirm Password"
             value={formData.password_confirmation}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                password_confirmation: e.target.value,
-              })
-            }
+           onChange={(e) => {
+              setFormData({ ...formData, password_confirmation: e.target.value });
+              clear("password_confirmation");
+            }}
           />
         </div>
 

@@ -36,7 +36,7 @@ export default function Login() {
       if (data) {
         setUser(data.user); // ✅ Update user state immediately
         navigate("/"); // Redirect after login
-        console.log(data);
+        alert("Login successful!");
       }
     } catch (error) {
       if (error.response?.data?.errors) {

@@ -45,7 +45,7 @@ export default function Layout() {
       if (data) {
         setUser(null); // Clear user state
         navigate("/"); // Redirect to home
-        console.log(data);
+        alert("Logout successful!");
       }    
     } catch (error) {
       console.error("Logout failed:", error);
