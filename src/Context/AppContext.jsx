@@ -7,6 +7,8 @@ export default function AppProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
 
+  
+
   /*User for cookies only
   
   async function getUser() {
@@ -27,21 +29,27 @@ export default function AppProvider({ children }) {
     getUser();
   }, []); */
 
-  async function getUser() {
-    try {
-      const res = await axios(
-        "https://laravel-backend-production-d2e9.up.railway.app/api/user"
-      );
 
-      const data = res.data;
-      if (data) {
-        console.log(data);
-        setUser(data);
+  async function getUser() {
+
+    try {
+      const res = await axios("https://laravel-backend-production-d2e9.up.railway.app/api/user"
+      ,{
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       }
+    );
+
+    const data = res.data;
+    if (data) {
+      console.log(data);
+      setUser(data);
+    }
     } catch (error) {
       if (error.response?.status === 401) {
         setUser(null);
-      } else {
+      } else{
         console.error("Error fetching user:", error);
       }
     }

@@ -5,9 +5,8 @@ import axios from "axios";
 
 export default function Layout() {
   const { user, setUser } = useContext(AppContext);
+  const { token, setToken } = useContext(AppContext);
   const navigate = useNavigate();
-
-  axios.defaults.withCredentials = true;
 
   // async function handleLogout(e) {
   //   e.preventDefault();
@@ -31,19 +30,18 @@ export default function Layout() {
   async function handleLogout(e) {
     e.preventDefault();
     try {
-      // 1️⃣ Get CSRF cookie first (required by Sanctum)
-      await axios.get(
-        "https://laravel-backend-production-d2e9.up.railway.app/sanctum/csrf-cookie",
-        {
-          withCredentials: true,
-        }
-      );
       const res = await axios.post(
         "https://laravel-backend-production-d2e9.up.railway.app/api/logout"
+        ,{
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
       ); // Sanctum handles session-based logout
       const data = res.data;
       if (data) {
         setUser(null); // Clear user state
+        setToken(null); 
         navigate("/"); // Redirect to home
         alert("Logout successful!");
       }    
