@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
-import useLaraveErrors from "../../Reusables/useLaravelErrors";
+import useLaravelErrors from "../../Reusables/useLaravelErrors";
 import FieldError from "../../Components/FieldError";
 
 export default function Login() {
@@ -15,7 +15,7 @@ export default function Login() {
     password: "",
   });
 
-  const [errors, capture, clear] = useLaraveErrors();
+  const [errors, capture, clear] = useLaravelErrors();
 
   /*  Use only for cookies
  axios.defaults.withCredentials = true;
