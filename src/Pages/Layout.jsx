@@ -28,27 +28,30 @@ export default function Layout() {
   // }
 
   async function handleLogout(e) {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "https://laravel-backend-production-d2e9.up.railway.app/api/logout"
-        ,{
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        }
-      ); // Sanctum handles session-based logout
-      const data = res.data;
-      if (data) {
-        setUser(null); // Clear user state
-        setToken(null); 
-        navigate("/"); // Redirect to home
-        alert("Logout successful!");
-      }    
-    } catch (error) {
-      console.error("Logout failed:", error);
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "https://laravel-backend-production-d2e9.up.railway.app/api/logout",
+      {}, // Empty body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = res.data;
+    if (data) {
+      setUser(null);
+      setToken(null);
+      navigate("/");
+      alert("Logout successful!");
     }
+  } catch (error) {
+    console.error("Logout failed:", error);
   }
+}
+
 
   return (
     <>
