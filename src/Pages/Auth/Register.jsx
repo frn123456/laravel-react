@@ -7,10 +7,9 @@ import { useContext } from "react";
 
 
 export default function Register() {
-  const {setToken} = useContext(AppContext);
+  const {setToken, setUser} = useContext(AppContext);
   const { errors, setErrors } = useState({});
   const navigate = useNavigate();
-  const { setUser } = useContext(AppContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",

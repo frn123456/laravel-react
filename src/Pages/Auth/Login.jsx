@@ -5,9 +5,8 @@ import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 
 export default function Login() {
-  const { setToken } = useContext(AppContext);
+  const { setToken, setUser } = useContext(AppContext);
   const { errors, setErrors} = useState({});
-  const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
