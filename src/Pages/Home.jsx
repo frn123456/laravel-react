@@ -1,14 +1,13 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosClient from "../Reusables/axiosClient";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
   async function getPosts() {
-    const res = await axios.get(
-      // "https://laravel-backend-production-d2e9.up.railway.app/api/posts"
-      "/api/posts"
+    const res = await axiosClient.get(
+      "/posts"
     );
     const data = res.data;
     if (data) {

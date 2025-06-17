@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
-import axiosClient from "../../Reusables/axiosClient";
-import { useContext } from "react";
+import axiosClient from "../../Reusables/axiosClient";;
 import { setAccessToken } from "../../Reusables/auth";
 
 export default function Register() {
