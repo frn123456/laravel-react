@@ -1,69 +1,38 @@
-import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import axiosClient from "./axiosClient"; // ✅ Use preconfigured Axios with auth
+import { getAccessToken } from "./auth"; // ✅ Access token stored in memory
 
 export const AppContext = createContext();
 
 export default function AppProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
 
-  
-
-  /*User for cookies only
-  
   async function getUser() {
     try {
-      
-      const res = await axios.get("https://laravel-backend-production-d2e9.up.railway.app/api/user");
-      setUser(res.data);
+      const res = await axiosClient.get("/user"); // ✅ Auth handled by interceptor
+      const data = res.data;
+      if (data) {
+        setUser(data);
+      }
     } catch (error) {
       if (error.response?.status === 401) {
         setUser(null);
-      } else{
+      } else {
         console.error("Error fetching user:", error);
       }
     }
   }
 
   useEffect(() => {
-    getUser();
-  }, []); */
-
-
-  async function getUser() {
-
-    try {
-      const res = await axios("https://laravel-backend-production-d2e9.up.railway.app/api/user"
-      ,{
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const data = res.data;
-    if (data) {
-      setUser(data);
-    }
-    } catch (error) {
-      if (error.response?.status === 401) {
-        setUser(null);
-      } else{
-        console.error("Error fetching user:", error);
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (token) {
+    if (getAccessToken()) {
       getUser();
     } else {
-      setUser(null); // Ensure user state is cleared when logging out
+      setUser(null); // Clear user if token doesn't exist
     }
-  }, [token]);
+  }, []); // ✅ No need to track token as state anymore
 
   return (
-    <AppContext.Provider value={{ user, token, setToken, setUser, getUser }}>
+    <AppContext.Provider value={{ user, setUser, getUser }}>
       {children}
     </AppContext.Provider>
   );

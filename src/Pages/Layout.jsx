@@ -46,6 +46,7 @@ export default function Layout() {
       }
       setUser(null);
       setToken(null);
+      localStorage.removeItem("token");
       navigate("/");
       console.log(data);
     } catch (error) {

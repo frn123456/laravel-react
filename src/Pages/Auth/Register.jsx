@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import App from "../../App";
 import { AppContext } from "../../Context/AppContext";
-import axios from "axios";
+import axiosClient from "../../Reusables/axiosClient";
 import { useContext } from "react";
+import { setAccessToken } from "../../Reusables/auth";
 
 export default function Register() {
-  const { setToken, setUser } = useContext(AppContext);
+  const { setUser } = useContext(AppContext);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,17 +20,21 @@ export default function Register() {
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "https://laravel-backend-production-d2e9.up.railway.app/api/register",
+      const res = await axiosClient.post(
+        "/register",
         formData
       );
+      /* const res = await axios.post(
+         "/api/register",
+        formData
+      ) */;
       const data = res.data;
       if (data?.message) {
         alert(data.message);
       }
       setUser(data.user);
-      localStorage.setItem("token", data.token);
-      setToken(data.token);
+      setAccessToken(data.token);
+      // setToken(data.token);
       navigate("/");
       console.log(data);
     } catch (error) {
