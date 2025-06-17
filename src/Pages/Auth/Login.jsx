@@ -55,7 +55,10 @@ export default function Login() {
     try {
       const res = await axiosClient.post(
         "/login",
-        formData
+        formData,
+        {
+          withCredentials: true
+        }
       );
       /* const res = await axios.post(
         "/api/login",

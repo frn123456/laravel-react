@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
-import axios from "axios";
+import { setAccessToken } from "../Reusables/auth";
+import axiosClient from "../Reusables/axiosClient";
 
 export default function Layout() {
   const { user, setUser } = useContext(AppContext);
-  const { token, setToken } = useContext(AppContext);
+
   const navigate = useNavigate();
 
   // async function handleLogout(e) {
@@ -27,28 +28,21 @@ export default function Layout() {
   //   }
   // }
 
-  async function handleLogout(e) {
-    e.preventDefault();
+   async function handleLogout() {
     try {
-      const res = await axios.post(
-        "https://laravel-backend-production-d2e9.up.railway.app/api/logout",
-        {}, // Empty body
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // Call backend to clear refresh token cookie
+      await axiosClient.post("/logout");
 
-      const data = res.data;
-      if (data?.message) {
-        alert(data.message);
-      }
+      // Clear in-memory access token
+      setAccessToken(null);
+
+      // Clear frontend user state
       setUser(null);
-      setToken(null);
-      localStorage.removeItem("token");
-      navigate("/");
-      console.log(data);
+
+      // Redirect to login page
+      navigate("/login");
+
+      console.log("Logged out successfully");
     } catch (error) {
       console.error("Logout failed:", error);
     }
