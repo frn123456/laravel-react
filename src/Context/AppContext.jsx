@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import axiosClient from "./axiosClient"; // ✅ Use preconfigured Axios with auth
-import { getAccessToken } from "./auth"; // ✅ Access token stored in memory
+import axiosClient from "../Reusables/axiosClient"; // ✅ Use preconfigured Axios with auth
+import { getAccessToken } from "../Reusables/auth"; // ✅ Access token stored in memory
 
 export const AppContext = createContext();
 
